@@ -1,6 +1,7 @@
 # MQTT for MycroftAI
 
 This is a skill written for mycroft to publish commands over an mqtt broker for home automation or any other purpose.
+Revised from "git clone https://github.com/jamiehoward430/mycroft-mymqtt.git"
 
 # Commands
 

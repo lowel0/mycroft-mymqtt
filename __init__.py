@@ -1,6 +1,7 @@
 # Revised from "git clone https://github.com/jamiehoward430/mycroft-mymqtt.git"
 
 from os.path import dirname
+from os import import uname
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
@@ -46,6 +47,16 @@ class mymqttskill(MycroftSkill):
             cmd = dev_name
         else:
             cmd = cmd_name + "/" + dev_name
+        if (cmd == "light"):
+            hostname = uname[1]
+            if (hostname == "picroft-rmo"):
+                cmd = "hall_light"
+            elif (hostname == "picroft-ao"):
+                cmd = "anesu_light"
+            elif (hostname == "picroft-so"):
+                cmd = "shamiso_light"
+            elif (hostname == "emoncms"):
+                cmd = "living_room_light"
         if (self.protocol == "mqtt"):
             mqttc = mqtt.Client("MycroftAI")
 	    if (self.mqttauth == "yes"):
