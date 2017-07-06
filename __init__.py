@@ -1,13 +1,14 @@
+# Revised from "git clone https://github.com/jamiehoward430/mycroft-mymqtt.git"
+
 from os.path import dirname
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
 
-from urllib2 import urlopen
 import paho.mqtt.client as mqtt
 
-__author__ = 'jamiehoward430'
+__author__ = 'lowel'
 
 LOGGER = getLogger(__name__)
 
@@ -39,19 +40,20 @@ class mymqttskill(MycroftSkill):
         cmd_name = message.data.get("CommandKeyword")
         mdl_name = message.data.get("ModuleKeyword")
         act_name = message.data.get("ActionKeyword")
-        dev_name = mdl_name.replace(' ', '_')
+        dev_name = mdl_name.replace(' ', '_').replace("'s", "")
         
-        if act_name:
-            cmd_name += '_' + act_name
-
+        if (dev_name.find("light") > 0):
+            cmd = dev_name
+        else:
+            cmd = cmd_name + "/" + dev_name
         if (self.protocol == "mqtt"):
-	    mqttc = mqtt.Client("MycroftAI")
+            mqttc = mqtt.Client("MycroftAI")
 	    if (self.mqttauth == "yes"):
-	        mqttc.username_pw_set(self.mqttuser,self.mqttpass)
+            mqttc.username_pw_set(self.mqttuser,self.mqttpass)
 	    if (self.mqttssl == "yes"):
-		mqttc.tls_set(self.mqttca) #/etc/ssl/certs/ca-certificates.crt
-            mqttc.connect(self.mqtthost,self.mqttport)
-	    mqttc.publish("/mycroft/" + cmd_name + "/" + dev_name + "/" + act_name, act_name)
+            mqttc.tls_set(self.mqttca) #/etc/ssl/certs/ca-certificates.crt
+        mqttc.connect(self.mqtthost,self.mqttport)
+	    mqttc.publish("mycroft/" + cmd, act_name)
 	    mqttc.disconnect()
 	    self.speak_dialog("cmd.sent")
             LOGGER.info(dev_name + "-" + cmd_name)

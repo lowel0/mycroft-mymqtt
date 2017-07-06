@@ -5,8 +5,8 @@ This is a skill written for mycroft to publish commands over an mqtt broker for 
 # Commands
 
 Currently it will publish the action to a topic built from the commands said, for example
-- say `hey mycroft, turn the light on` and mycroft will publish `on` to `/mycroft/turn/light/on`.
-- say `hey mycroft, switch the tv on` and mycroft will publish `on` to `/mycroft/switch/tv/on`.
+- say `hey mycroft, turn the light on` and mycroft will publish `on` to `mycroft/turn/light/on`.
+- say `hey mycroft, switch the tv on` and mycroft will publish `on` to `mycroft/switch/tv/on`.
 
 # Installing the skill
 
