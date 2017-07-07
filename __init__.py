@@ -43,19 +43,19 @@ class mymqttskill(MycroftSkill):
         act_name = message.data.get("ActionKeyword")
         dev_name = mdl_name.replace(' ', '_').replace("'s", "")
         
-        if (dev_name.find("light") > 0):
-            cmd = dev_name
-        else:
+        if (dev_name.find("light") < 0):
             cmd = cmd_name + "/" + dev_name
+        else:
+            cmd = dev_name
         if (cmd == "light"):
-            hostname = uname[1]
-            if (hostname == "picroft-rmo"):
-                cmd = "hall_light"
-            elif (hostname == "picroft-ao"):
+            hostName = uname()[1]
+            if (hostName == "picroft-rmo"):
+                cmd = "living_room_light"
+            elif (hostName == "picroft-ao"):
                 cmd = "anesu_light"
-            elif (hostname == "picroft-so"):
+            elif (hostName == "picroft-so"):
                 cmd = "shamiso_light"
-            elif (hostname == "emoncms"):
+            elif (hostName == "emoncms"):
                 cmd = "living_room_light"
         if (self.protocol == "mqtt"):
             mqttc = mqtt.Client("MycroftAI")
@@ -67,7 +67,7 @@ class mymqttskill(MycroftSkill):
             mqttc.publish("mycroft/" + cmd, act_name)
             mqttc.disconnect()
             self.speak_dialog("cmd.sent")
-            LOGGER.info(dev_name + "-" + cmd_name)
+            LOGGER.info(cmd + "," + act_name)
         else:
             self.speak_dialog("not.found", {"command": cmd_name, "action": act_name, "module": dev_name})
             LOGGER.error("Error: {0}".format(e))
