@@ -1,7 +1,7 @@
 # Revised from "git clone https://github.com/jamiehoward430/mycroft-mymqtt.git"
 
 from os.path import dirname
-from os import import uname
+from os import uname
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
@@ -59,17 +59,16 @@ class mymqttskill(MycroftSkill):
                 cmd = "living_room_light"
         if (self.protocol == "mqtt"):
             mqttc = mqtt.Client("MycroftAI")
-	    if (self.mqttauth == "yes"):
-            mqttc.username_pw_set(self.mqttuser,self.mqttpass)
-	    if (self.mqttssl == "yes"):
-            mqttc.tls_set(self.mqttca) #/etc/ssl/certs/ca-certificates.crt
-        mqttc.connect(self.mqtthost,self.mqttport)
-	    mqttc.publish("mycroft/" + cmd, act_name)
-	    mqttc.disconnect()
-	    self.speak_dialog("cmd.sent")
+            if (self.mqttauth == "yes"):
+                mqttc.username_pw_set(self.mqttuser,self.mqttpass)
+            if (self.mqttssl == "yes"):
+                mqttc.tls_set(self.mqttca) #/etc/ssl/certs/ca-certificates.crt
+            mqttc.connect(self.mqtthost, self.mqttport)
+            mqttc.publish("mycroft/" + cmd, act_name)
+            mqttc.disconnect()
+            self.speak_dialog("cmd.sent")
             LOGGER.info(dev_name + "-" + cmd_name)
-
-	else:
+        else:
             self.speak_dialog("not.found", {"command": cmd_name, "action": act_name, "module": dev_name})
             LOGGER.error("Error: {0}".format(e))
         
