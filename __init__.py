@@ -52,9 +52,9 @@ class mymqttskill(MycroftSkill):
             if (hostName == "picroft-rmo"):
                 cmd = "living_room_light"
             elif (hostName == "picroft-ao"):
-                cmd = "anesu_light"
+                cmd = "alexia_light"
             elif (hostName == "picroft-so"):
-                cmd = "shamiso_light"
+                cmd = "chelsea_light"
             elif (hostName == "emoncms"):
                 cmd = "living_room_light"
         if (self.protocol == "mqtt"):
